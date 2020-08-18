@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springcloud.dao.PaymentDao">
+
+    <!--
+       主键回填：
+       useGeneratedKeys="true"  表示采用数据库自动分配主键策略: auto_increment
+       keyProperty="id" 插入数据后，框架查询主键值，赋值给bean对象的id属性。
+    -->
+
+    <insert id="create"  useGeneratedKeys="true" keyProperty="id">
+            insert into payment(serial) values(#{serial});
+    </insert>
+
+   <!-- <resultMap id="BaseResultMap" type="com.springcloud.entities.Payment">-->
+    <resultMap id="BaseResultMap" type="payment">
+        <id column="id" property="id" jdbcType="BIGINT"></id>
+        <result column="serial" property="serial" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <select id="getPaymentById"  parameterType="Long" resultMap="BaseResultMap">
+            select * from payment where id=#{id}
+    </select>
+
+</mapper>

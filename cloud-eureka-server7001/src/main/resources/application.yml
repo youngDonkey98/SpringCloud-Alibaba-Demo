@@ -1,0 +1,12 @@
+server:
+  port: 7001
+
+eureka:
+  instance:
+    hostname: localhost
+
+  client:
+    register-with-eureka: false   # eureka-server 不需要 自己注册自己 （集群版注册中心需要改成true）
+    fetchRegistry: false          # 注册中心 不需要自己获取 服务列表 （集群版注册中心需要改成true）
+    service-url:
+      defaultZone: http://localhost:7001/eureka   # 注册中心地址 被Eureka-client使用
