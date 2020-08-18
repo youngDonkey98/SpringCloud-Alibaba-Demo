@@ -23,6 +23,7 @@
         <module>cloudalibaba-provider-payment9002</module>
         <module>cloudalibaba-consumer-nacos-order83</module>
         <module>cloudalibaba-config-nacos-client3377</module>
+        <module>cloud-consumer-hystrix-dashboard9001</module>
     </modules>
 
     <packaging>pom</packaging>
