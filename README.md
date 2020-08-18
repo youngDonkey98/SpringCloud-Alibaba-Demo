@@ -17,3 +17,7 @@ jumeter 2.13<br>
 nacos 1.1.4<br>
 zipkin 2.12.9<br>
 hutool 5.1.0<br>
+
+
+## 其他详情  请去wiki查看
+
