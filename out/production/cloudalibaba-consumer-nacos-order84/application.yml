@@ -1,0 +1,17 @@
+server:
+  port: 84
+
+spring:
+  application:
+    name: nacos-order-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080 #配置Sentinel dashboard地址
+        port: 8719 #默认8719，应用与Sentinel控制台交互的端口，应用本地会起一个该端口占用的HttpServer
+
+service-url:
+  nacos-user-service: http://nacos-payment-provider
