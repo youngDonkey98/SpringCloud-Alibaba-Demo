@@ -12,9 +12,22 @@ spring:
       transport:
         dashboard: localhost:8080
         port: 8719  #默认8719，应用与Sentinel控制台交互的端口，应用本地会起一个该端口占用HttpServer
+      datasource:
+        ds1:
+          nacos:
+            server-addr: localhost:8848
+            dataId: cloudalibaba-sentinel-service
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
+
 
 management:
   endpoints:
     web:
       exposure:
         include: '*'  # 此微服务 对外暴露规则
+
+feign:
+  sentinel:
+    enabled: true # 激活Sentinel对Feign的支持

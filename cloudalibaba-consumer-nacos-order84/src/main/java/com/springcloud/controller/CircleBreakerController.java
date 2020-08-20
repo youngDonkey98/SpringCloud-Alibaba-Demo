@@ -24,10 +24,16 @@ public class CircleBreakerController {
     @RequestMapping("/consumer/fallback/{id}")
     //@SentinelResource(value = "fallback") //实验一： 没有配置
     //@SentinelResource(value = "fallback",blockHandler = "blockHandler") //实验二：blockHandler只负责sentinel控制台配置违规
-    @SentinelResource(value="fallback",blockHandler="blockHandler")//实验三：blockHandler只负责sentinel控制台配置违规
-    //@SentinelResource(value = "fallback",fallback = "handlerFallback",
-    // blockHandler = "blockHandler", exceptionsToIgnore = {IllegalArgumentException.class}) //实验五：忽略特定异常不进行降级（忽略的是fullback）但是如果违规 依然走blockHandler处理
+    //@SentinelResource(value="fallback",blockHandler="blockHandler")//实验三：blockHandler只负责sentinel控制台配置违规
+    //@SentinelResource(value="fallback",fallback = "handlerFallback",blockHandler="blockHandler") //实验4.fallback和blockHandler同时存在如何处理？
+    //allback和blockHandler都配置：不超过降级规则执行fallback兜底处理；超过降级规则抛BlockException异常，被blockHandler处理
+
+    @SentinelResource(value="fallback",
+            fallback = "handlerFallback",
+            blockHandler="blockHandler",
+            exceptionsToIgnore = IllegalArgumentException.class) //实验5.忽略特定异常，不进行fallback降级处理，但是，如果违规，依然走blockHandler降级处理
     public CommonResult<Payment> fallback(@PathVariable("id") Integer id) {
+        //注意参数传递，站位符
         CommonResult<Payment> result = restTemplate.getForObject(SERVICE_URL + "/paymentSQL/{id}", CommonResult.class,id);
         if (id == 4) {
             throw new IllegalArgumentException ("IllegalArgumentException,非法参数异常....");
@@ -43,7 +49,7 @@ public class CircleBreakerController {
         return new CommonResult<Payment>(444,"兜底异常handlerFallback,exception内容  "+e.getMessage(),payment);
     }
 
-    //blockHandler 针
+    //blockHandler  针对于sentinel控制配置规则违规 降级处理
     public CommonResult<Payment> blockHandler(@PathVariable("id")  Long id, BlockException blockException) {
         Payment payment = new Payment(id,"null");
         return new CommonResult<Payment>(445,"blockHandler-sentinel限流,无此流水: blockException  "+blockException.getMessage(),payment);

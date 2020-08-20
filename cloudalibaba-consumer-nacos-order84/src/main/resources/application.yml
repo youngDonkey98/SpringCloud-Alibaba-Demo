@@ -15,3 +15,8 @@ spring:
 
 service-url:
   nacos-user-service: http://nacos-payment-provider
+
+#对Feign的支持
+feign:
+  sentinel:
+    enabled: true
